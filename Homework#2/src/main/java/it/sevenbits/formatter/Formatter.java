@@ -22,103 +22,30 @@ public class Formatter {
                 prev = input.charAt(i);
             } else {
                 cur = input.charAt(i);
-                act2();
+                action();
                 prev = cur;
             }
         }
-        act2();
+        action();
         return result.toString();
     }
-//    public String format(String input) {
-//        int len = input.length();
-//        for (int i = 0; i < len; i++) {
-//            if (i == 0) {
-//                prev = input.charAt(i);
-//            } else {
-//                cur = input.charAt(i);
-//                act();
-//                prev = cur;
-//            }
-//            if (isNewLine) {
-//                addTab();
-//                isNewLine = false;
-//            }
-//        }
-//        act();
-//        return result.toString();
-//    }
 
-    private void action() {
-        if (isAlpha(prev) && isAlpha(cur)) {
-            result.append(prev);
-        }
-        else if (isAlpha(prev) && cur == ' ') {
-            result.append(prev);
-        }
-        else if (isAlpha(prev) && cur == ';') {
-            result.append(prev);
-        }
-        else if (prev == ' ' && isAlpha(cur)) {
-            result.append(prev);
-        }
-        else if (prev == ' ' && cur == ' ') {
-            ;
-        }
-        else if (prev == ' ' && cur == '{') {
-            result.append(prev);
-//            addTab();
-        }
-        else if (prev == ' ' && cur == '\n') {
-            ;
-        }
-        else if (prev == '{' && isAlpha(cur)) {
-            tabCount++;
-            result.append(prev).append('\n');
-            addTab();
-        }
-        else if (prev == '{' && (cur == ' ' || cur == '\n')) {
-            tabCount++;
-            result.append(prev).append('\n');
-            addTab();
-        }
-        else if (prev == '}' && cur == '\n') {
-            tabCount--;
-            addTab();
-            result.append(prev);
-        }
-        else if (prev == ';' && isAlpha(cur)) {
-            result.append(prev).append('\n');   // \n ?
-            addTab();
-        }
-        else if (prev == ';' && cur == ' ') {
-            result.append(prev);
-        }
-        else if (prev == ';' && cur == '\n') {
-            result.append(prev).append('\n');
-            addTab();
-        }
-//        else if (prev == '\n' && isAlpha(cur)) {
-//            result.append('\n');
-//            addTab();
-//        }
-        else if (prev == '\n' && cur == '}') {
-//            addTab();
-            result.append('\n');
-        }
-        else if (prev == '}') {
-            tabCount--;
-            addTab();
-            result.append(prev);
-        }
-    }
-
-//    private void act() {
+    /*################################*/
+    /*  Переход на новую строку только, когда встречается символы "\n".
+    /*  Минусы: не обрабатываются "{{}}"
+    /*###############################*/
+//    private void action() {
 //        if (prev == ' ' && cur == ' ') {
 //            ; // pass
 //        }
-//        else if (prev == ' ' && cur == '}') {
+//        else if (isNewLine && isAlpha(cur)) {
+//            addTab();
+//            isNewLine = false;
+//        }
+//        else if (isNewLine && cur == '}') {
 //            tabCount--;
-//            ; // pass
+//            addTab();
+//            isNewLine = false;
 //        }
 //        else if (isAlpha(prev) && cur == ' ') {
 //            result.append(prev).append(cur);
@@ -128,6 +55,7 @@ public class Formatter {
 //            result.append(prev);
 //        }
 //        else if (prev == '{') {
+//            isNewLine = true;
 //            result.append(prev);
 //            tabCount++;
 //        }
@@ -138,23 +66,28 @@ public class Formatter {
 //            result.append(prev);
 //        }
 //        else if (prev == '\n' && cur == '}') {
-//            tabCount--;
-////            result.setLength(result.length() - 1);  // delete tabulate(костыль)
-////            addTab();
-//            result.append(prev);
+//            isNewLine = true;
+//            result.append(prev).append(cur);
 //        }
 //        else if (prev == '\n' && cur == ' ') {
-//            result.append(prev);
 //            isNewLine = true;
-////            addTab();
+//            result.append(prev);
 //        }
 //        else if (prev == '}') {
-////            tabCount--;
 //            result.append(prev);
 //        }
 //    }
 
-    private void act2() {
+
+
+
+
+    /*################################*/
+    /*  Переход на новую строку только, когда встречаются символы "{" и ";"
+    /*  Попытка сделать нормальные переносы, когда встречаются "{" и "}"
+    /*  Минусы: некорректно обрабатываются циклы
+    /*###############################*/
+    private void action() {
         if (prev == ' ' && cur == ' ') {
             ; // pass
         }
@@ -174,9 +107,17 @@ public class Formatter {
         else if (isAlpha(prev)) {
             result.append(prev);
         }
+        else if (prev == '{' && cur != '\n' && isNewLine) {
+            result.append(prev).append('\n');
+            tabCount++;
+            addTab();
+            isNewLine = false;
+        }
         else if (prev == '{') {
+            isNewLine = true;
             result.append(prev);
             tabCount++;
+            addTab();
         }
         else if (prev ==';' && cur != '\n') {
             result.append(prev);

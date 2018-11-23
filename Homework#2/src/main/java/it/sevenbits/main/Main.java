@@ -19,7 +19,7 @@ public class Main {
 
         String test3 = "while   (inputStream.hasNext())  {\n" +
                 "   char symbol = inputStream.read();\n" +
-                "   if (symbol == ' ') {\n" +
+                "   if (symbol      == ' ') {\n" +
                 "       whiteSpaceCount++;\n" +
                 "       if (symbol == ' ') {\n" +
                 "           whiteSpaceCount++;\n" +
@@ -28,10 +28,13 @@ public class Main {
                 "       }\n" +
                 "   }\n" +
                 "}";
-        System.out.println(formatter.format(test1));
+        String test4 = "{{{}}}";
+        System.out.println("Test 1:\n" + formatter.format(test1) + "\n");
         formatter = new Formatter();
-        System.out.println(formatter.format(test2));
+        System.out.println("Test 2:\n" + formatter.format(test2) + "\n");
         formatter = new Formatter();
-        System.out.println(formatter.format(test3));
+        System.out.println("Test 3:\n" + formatter.format(test3) + "\n");
+        formatter = new Formatter();
+        System.out.println("Test 4:\n" + formatter.format(test4) + "\n");
     }
 }
