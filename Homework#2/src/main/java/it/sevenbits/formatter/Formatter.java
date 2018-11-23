@@ -103,11 +103,14 @@ public class Formatter {
         else if (isAlpha(prev) && cur == ' ') {
             result.append(prev).append(cur);
         }
+        else if (isAlpha(prev) && cur == '{') {
+            result.append(prev).append(' ');
+        }
 
         else if (isAlpha(prev)) {
             result.append(prev);
         }
-        else if (prev == '{' && cur != '\n' && isNewLine) {
+        else if (prev == '{' && cur != '\n') {
             result.append(prev).append('\n');
             tabCount++;
             addTab();
@@ -117,10 +120,12 @@ public class Formatter {
             isNewLine = true;
             result.append(prev);
             tabCount++;
-            addTab();
         }
         else if (prev ==';' && cur != '\n') {
             result.append(prev);
+
+            result.append('\n');
+            addTab();
         }
         else if (prev ==';') {
             result.append(prev);
@@ -131,6 +136,12 @@ public class Formatter {
         }
         else if (prev == '\n' && cur == ' ') {
             isNewLine = true;
+            result.append(prev);
+        }
+        else if (prev == '}' && cur != '\n') {
+            tabCount--;
+            result.append('\n');
+            addTab();
             result.append(prev);
         }
         else if (prev == '}') {

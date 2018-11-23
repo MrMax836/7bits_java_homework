@@ -28,7 +28,15 @@ public class Main {
                 "       }\n" +
                 "   }\n" +
                 "}";
+
         String test4 = "{{{}}}";
+
+        String test5 = "aaa{bbbb;ccc;}";
+
+        String test6 = "aaa { bbbb; ccc; }";
+
+        String test7 = "aaa { bbbb;ccc; }";
+
         System.out.println("Test 1:\n" + formatter.format(test1) + "\n");
         formatter = new Formatter();
         System.out.println("Test 2:\n" + formatter.format(test2) + "\n");
@@ -36,5 +44,11 @@ public class Main {
         System.out.println("Test 3:\n" + formatter.format(test3) + "\n");
         formatter = new Formatter();
         System.out.println("Test 4:\n" + formatter.format(test4) + "\n");
+        formatter = new Formatter();
+        System.out.println("Test 5:\n" + formatter.format(test5) + "\n");
+        formatter = new Formatter();
+        System.out.println("Test 6:\n" + formatter.format(test6) + "\n");
+        formatter = new Formatter();
+        System.out.println("Test 7:\n" + formatter.format(test7) + "\n");
     }
 }
