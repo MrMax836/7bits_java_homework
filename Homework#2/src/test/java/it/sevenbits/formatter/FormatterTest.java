@@ -97,7 +97,7 @@ public class FormatterTest {
         String ideal =  "aaa {\n"+
                         "    bbbb;\n"+
                         "    ccc;\n"+
-                        "    \n"+
+                        "    \n"+                   /* Здесь не должно быть табуляции и переноса строки*/
                         "}";
         assertEquals("wrong formatter",
                 ideal, result);
